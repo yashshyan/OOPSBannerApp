@@ -1,47 +1,80 @@
-public class OOPSBannerApp {
-    public static void main(String[] args) {
-        String[] o = buildO();
-        String[] p = buildP();
-        String[] s = buildS();
-        String[] banner = new String[o.length];
-        for (int i = 0; i < o.length; i++) {
-            banner[i] = String.join("   ", o[i], o[i], p[i], s[i]);
+import java.util.*;
+
+public class uc7 {
+
+    
+    static class CharacterPattern {
+        private char character;
+        private String[] pattern;
+
+        public CharacterPattern(char character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
         }
-        for (String line : banner) {
+
+        public char getCharacter() {
+            return character;
+        }
+
+        public String[] getPattern() {
+            return pattern;
+        }
+    }
+
+    
+    static class CharacterPatternMap {
+        private static Map<Character, CharacterPattern> patternMap = new HashMap<>();
+
+        static {
+            // Pattern for O
+            patternMap.put('O', new CharacterPattern('O', new String[]{
+                    " *** ",
+                    "*   *",
+                    "*   *",
+                    "*   *",
+                    " *** "
+            }));
+
+            // Pattern for P
+            patternMap.put('P', new CharacterPattern('P', new String[]{
+                    "**** ",
+                    "*   *",
+                    "**** ",
+                    "*    ",
+                    "*    "
+            }));
+
+            // Pattern for S
+            patternMap.put('S', new CharacterPattern('S', new String[]{
+                    " ****",
+                    "*    ",
+                    " *** ",
+                    "    *",
+                    "**** "
+            }));
+        }
+
+        public static CharacterPattern getPattern(char ch) {
+            return patternMap.get(Character.toUpperCase(ch));
+        }
+    }
+
+    public static void main(String[] args) {
+
+        String word = "OOPS";
+        int height = 5;
+
+        for (int i = 0; i < height; i++) {
+            StringBuilder line = new StringBuilder();
+
+            for (char ch : word.toCharArray()) {
+                CharacterPattern cp = CharacterPatternMap.getPattern(ch);
+                if (cp != null) {
+                    line.append(cp.getPattern()[i]).append("  ");
+                }
+            }
+
             System.out.println(line);
         }
-    }
-    public static String[] buildO() {
-        return new String[] {
-            " ***** ",
-            "*     *",
-            "*     *",
-            "*     *",
-            "*     *",
-            "*     *",
-            " ***** "
-        };
-    }
-    public static String[] buildP() {
-        return new String[] {
-            " ***** ",
-            "*     *",
-            "*     *",
-            " ***** ",
-            "*      ",
-            "*      ",
-            "*      "
-        };
-    }
-    public static String[] buildS() {
-        return new String[] {
-            " ***** ",
-            "*      ",
-            "*      ",
-            " ***** ",
-            "      *",
-            "      *",
-            " ***** "
-        };
     }
 }
