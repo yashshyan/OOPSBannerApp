@@ -1,80 +1,68 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class uc7 {
+public class OOPSBannerUC8 {
 
-    
-    static class CharacterPattern {
-        private char character;
-        private String[] pattern;
+    // Map to store character patterns
+    static Map<Character, String[]> patternMap = new HashMap<>();
 
-        public CharacterPattern(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
+    // Function to load character patterns
+    public static void loadPatterns() {
 
-        public char getCharacter() {
-            return character;
-        }
+        patternMap.put('O', new String[]{
+                " ***** ",
+                "*     *",
+                "*     *",
+                "*     *",
+                " ***** "
+        });
 
-        public String[] getPattern() {
-            return pattern;
-        }
+        patternMap.put('P', new String[]{
+                " ***** ",
+                "*     *",
+                " ***** ",
+                "*      ",
+                "*      "
+        });
+
+        patternMap.put('S', new String[]{
+                " ***** ",
+                "*      ",
+                " ***** ",
+                "      *",
+                " ***** "
+        });
     }
 
-    
-    static class CharacterPatternMap {
-        private static Map<Character, CharacterPattern> patternMap = new HashMap<>();
+    // Function to render banner
+    public static void renderBanner(String word) {
 
-        static {
-            // Pattern for O
-            patternMap.put('O', new CharacterPattern('O', new String[]{
-                    " *** ",
-                    "*   *",
-                    "*   *",
-                    "*   *",
-                    " *** "
-            }));
-
-            // Pattern for P
-            patternMap.put('P', new CharacterPattern('P', new String[]{
-                    "**** ",
-                    "*   *",
-                    "**** ",
-                    "*    ",
-                    "*    "
-            }));
-
-            // Pattern for S
-            patternMap.put('S', new CharacterPattern('S', new String[]{
-                    " ****",
-                    "*    ",
-                    " *** ",
-                    "    *",
-                    "**** "
-            }));
-        }
-
-        public static CharacterPattern getPattern(char ch) {
-            return patternMap.get(Character.toUpperCase(ch));
-        }
-    }
-
-    public static void main(String[] args) {
-
-        String word = "OOPS";
+        word = word.toUpperCase();
         int height = 5;
 
-        for (int i = 0; i < height; i++) {
+        for (int row = 0; row < height; row++) {
+
             StringBuilder line = new StringBuilder();
 
             for (char ch : word.toCharArray()) {
-                CharacterPattern cp = CharacterPatternMap.getPattern(ch);
-                if (cp != null) {
-                    line.append(cp.getPattern()[i]).append("  ");
+
+                String[] pattern = patternMap.get(ch);
+
+                if (pattern != null) {
+                    line.append(pattern[row]).append("  ");
+                } else {
+                    line.append("        ");
                 }
             }
 
             System.out.println(line);
         }
+    }
+
+    // Main method
+    public static void main(String[] args) {
+
+        loadPatterns();           // Load all patterns
+        renderBanner("OOPS");     // Render banner
     }
 }
